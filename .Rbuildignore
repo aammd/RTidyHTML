@@ -1,3 +1,5 @@
 .*\.o$
 .*Rcheck.*
 
+^.*\.Rproj$
+^\.Rproj\.user$
