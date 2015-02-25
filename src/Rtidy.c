@@ -30,8 +30,7 @@ RTI_free( TidyAllocator *self, void *block)
 void
 RTI_panic( TidyAllocator *self, ctmbstr msg)
 {
-  PROBLEM msg
-    ERROR;
+  Rf_error(msg);
 }
 
 static const TidyAllocatorVtbl allocatorFuns =  {
@@ -78,18 +77,16 @@ R_tidy_html(SEXP r_doc, SEXP r_asXHTML, SEXP r_size)
       ans = ScalarString(mkChar((char *) errbuf.bp));
       tidyBufFree(&errbuf);
       return(ans);
-      PROBLEM "problem parsing the HTML document"
-	ERROR;
+      // This seems unreachable...
+      Rf_error("problem parsing the HTML document");
     }
     ok = tidyCleanAndRepair(tdoc);
     if(!ok) {
-      PROBLEM "problem tidying the HTML document"
-	ERROR;
+      Rf_error("problem tidying the HTML document");
     }
     ok = tidyRunDiagnostics(tdoc); 
     if(!ok) {
-      PROBLEM "problem running the diagnostics on the HTML document"
-	ERROR;
+      Rf_error("problem running the diagnostics on the HTML document");
     }    
 
     len = INTEGER(r_size)[0];
